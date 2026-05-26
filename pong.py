@@ -29,12 +29,26 @@ class ball:
         self.position = position
         self.side = side
         self.played = False
+        self.bounced_x = False
+        self.bounced_y = False
 
-    def move():
-        pass
+    def move(self, delta):
+        print(self.position.y)
+        if self.bounced_y == False :
+            self.position.y += 300 * delta
+
+        if  self.position.y == screen_height  :
+            self.bounced_y = True
+            print("test")
+        if self.bounced_y == True :
+            self.position.y -= 300 * delta
+        
+        if  self.position.y == 0 :
+            self.bounced_y = False
 
     def draw(self):
         pygame.draw.rect(self.surface, "white", (self.position.x, self.position.y, self.side, self.side))
+
 
 screen_width = 1280
 screen_height = 720
@@ -74,6 +88,7 @@ def main():
         player.keys_pressed(delta)
         enemy.draw()
         ball.draw()
+        ball.move(delta)
         pygame.display.flip()
 
         delta = clock.tick(60) / 1000
