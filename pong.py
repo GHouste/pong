@@ -19,7 +19,7 @@ class pallet:
 
     def draw(self):
         pygame.draw.rect(self.surface, "white", (self.position.x, self.position.y, self.width, self.height))
-
+        
     def display_score(self):
         pass
 
@@ -29,22 +29,20 @@ class ball:
         self.position = position
         self.side = side
         self.played = False
-        self.bounced_x = False
-        self.bounced_y = False
+        self.dir_x = 1
+        self.dir_y = 1
 
     def move(self, delta):
-        print(self.position.y)
-        if self.bounced_y == False :
-            self.position.y += 300 * delta
 
-        if  self.position.y == screen_height  :
-            self.bounced_y = True
-            print("test")
-        if self.bounced_y == True :
-            self.position.y -= 300 * delta
-        
-        if  self.position.y == 0 :
-            self.bounced_y = False
+        self.position.y +=  self.dir_y * 300 * delta
+
+        if self.position.y >= screen_height - self.side or self.position.y <= 0:
+            self.dir_y *= -1
+
+        self.position.x +=  self.dir_x * 300 * delta
+
+        if self.position.x >= screen_width - self.side or self.position.x <= 0:
+            self.dir_x *= -1
 
     def draw(self):
         pygame.draw.rect(self.surface, "white", (self.position.x, self.position.y, self.side, self.side))
@@ -69,6 +67,9 @@ enemy_starting_position = pygame.Vector2(screen.get_width() -60-pallet_width, (s
 player = pallet(screen, player_starting_position, pallet_width, pallet_height)
 enemy = pallet(screen, enemy_starting_position, pallet_width, pallet_height)
 ball = ball(screen,pygame.Vector2(800,400),ball_side_size)
+
+def draw_line():
+    pass
 
 def main():
     running = True
